@@ -6,10 +6,31 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    fetch(`https://jsonplaceholder.typicode.com/posts`)
-      .then((res) => res.json())
-      .then((data) => setPosts(data));
+    const abortController = new AbortController(); // Create an AbortController
+    const signal = abortController.signal;
+
+    fetch(`https://jsonplaceholder.typicode.com/posts`, { signal })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      // .then((data) => {
+      //   setPosts(data);
+      //   setLoading(false);
+      // })
+      // .catch((error) => {
+      //   setError(error); // Set error state
+      //   setLoading(false);
+      // });
+
+    // Cleanup function
+    return () => {
+      abortController.abort(); // Abort the fetch request
+    };
   }, []);
+  
   return (
     <div className="pt-5">
       <div className="container mx-auto">
