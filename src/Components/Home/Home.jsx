@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null); // Error state
+
 
   useEffect(() => {
     const abortController = new AbortController(); // Create an AbortController
@@ -16,20 +19,25 @@ const Home = () => {
         }
         return res.json();
       })
-      // .then((data) => {
-      //   setPosts(data);
-      //   setLoading(false);
-      // })
-      // .catch((error) => {
-      //   setError(error); // Set error state
-      //   setLoading(false);
-      // });
+      .then((data) => {
+        setPosts(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error); // Set error state
+        setLoading(false);
+      });
 
     // Cleanup function
     return () => {
       abortController.abort(); // Abort the fetch request
     };
   }, []);
+  
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   
   return (
     <div className="pt-5">
