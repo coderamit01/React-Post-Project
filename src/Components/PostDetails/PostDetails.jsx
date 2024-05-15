@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import personImg from "../../assets/person.webp";
 
 const PostDetails = () => {
   const { postId } = useParams();
-  const [post, setPost] = useState(null);
-  console.log(post);
+  const [post, setPost] = useState();
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -12,9 +13,7 @@ const PostDetails = () => {
         const response = await fetch(
           `https://jsonplaceholder.typicode.com/posts/${postId}`
         );
-        if (!response.ok) {
-          throw new Error("Failed to fetch post");
-        }
+
         const postData = await response.json();
         setPost(postData);
       } catch (error) {
@@ -22,21 +21,48 @@ const PostDetails = () => {
       }
     };
 
-    fetchPost();
+    const fetchComments = async () => {
+      try {
+        const response = await fetch(
+          `https://jsonplaceholder.typicode.com/comments?postId=${postId}`
+        );
 
-    // Cleanup function if needed
-    return () => {
-      // Any cleanup code if needed
+        const commentsData = await response.json();
+        setComments(commentsData);
+      } catch (error) {
+        console.error("Error fetching comments:", error);
+      }
     };
+
+    fetchPost();
+    fetchComments();
   }, [postId]);
 
   return (
-    <div>
+    <div className="container mx-auto pt-20">
       {post ? (
         <div>
-          <h3>{post.title}</h3>
-          <p>{post.body}</p>
-          {/* You can display other details of the post here */}
+          <div>
+            <span className="py-1 px-5 bg-orange-300 text-slate-900 rounded font-semibold">
+              userid {post.userId}
+            </span>
+            <h3 className="text-2xl font-semibold capitalize pt-1">
+              {post.title}
+            </h3>
+            <p className="py-2">{post.body}</p>
+          </div>
+          {/* Display comments here */}
+          <h4 className="text-xl font-semibold text-green-900 py-2">
+            Comments:
+          </h4>
+          <div>
+            {comments.map((comment) => (
+              <div key={comment.id}>
+                <img src={personImg} />
+                <strong>{comment.name}</strong>: {comment.body}
+              </div>
+            ))}
+          </div>
         </div>
       ) : (
         <p>Loading...</p>
