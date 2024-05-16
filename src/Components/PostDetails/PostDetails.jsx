@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import personImg from "../../assets/person.webp";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import ShareIcon from "@mui/icons-material/Share";
+import { red } from "@mui/material/colors";
 
 const PostDetails = () => {
   const { postId } = useParams();
@@ -38,6 +42,12 @@ const PostDetails = () => {
     fetchComments();
   }, [postId]);
 
+  const [likeColor, setLikeColor] = useState(""); // Initialize likeColor to undefined
+
+  const handleLike = () => {
+    const color = likeColor ? "" : red[500]; // Toggle color between undefined and "primary"
+    setLikeColor(color);
+  };
   return (
     <div className="container mx-auto pt-20">
       {post ? (
@@ -51,7 +61,19 @@ const PostDetails = () => {
             </h3>
             <p className="py-2">{post.body}</p>
           </div>
-          {/* Display comments here */}
+          <div className="py-2 flex items-center">
+            <span onClick={handleLike} className="me-2 cursor-pointer">
+              {likeColor ? (
+                <FavoriteIcon style={{ color: likeColor }} />
+              ) : (
+                <FavoriteBorderIcon style={{ color: likeColor }} />
+              )}
+              Like
+            </span>
+            <ShareIcon></ShareIcon>
+          </div>
+
+          {/* /* Display comments here */}
           <h4 className="text-xl font-semibold text-green-900 py-2">
             Comments:
           </h4>
