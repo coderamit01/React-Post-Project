@@ -46,7 +46,7 @@ const PostDetails = () => {
             <span className="py-1 px-5 bg-orange-300 text-slate-900 rounded font-semibold">
               userid {post.userId}
             </span>
-            <h3 className="text-2xl font-semibold capitalize pt-1">
+            <h3 className="text-2xl font-semibold capitalize pt-2">
               {post.title}
             </h3>
             <p className="py-2">{post.body}</p>
@@ -58,8 +58,14 @@ const PostDetails = () => {
           <div>
             {comments.map((comment) => (
               <div key={comment.id}>
-                <img src={personImg} />
-                <strong>{comment.name}</strong>: {comment.body}
+                <div className="flex items-center">
+                  <img src={personImg} className="h-10 w-10 rounded-full" />
+                  <h5 className="font-semibold ms-2">{comment.email}</h5>
+                  <span className="ms-3 text-slate-600">45 Minutes ago</span>
+                </div>
+                <div className="p-2 first-letter:uppercase">
+                  <p>{comment.body}</p>
+                </div>
               </div>
             ))}
           </div>
