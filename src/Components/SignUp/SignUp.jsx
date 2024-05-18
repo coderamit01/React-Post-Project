@@ -1,18 +1,8 @@
-import React from "react";
+import React from 'react';
 import LoginbgImg from "../../assets/login-bg.png";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
-const SignIn = () => {
-  const handleBlur = (e) => {
-    if(e.target.name === 'email'){
-      const isEmailValid = /\S+@\S+\.\S+/.test(e.target.value)
-      console.log(isEmailValid)
-    }
-    if(e.target.name === 'password'){
-      const isPassValid = e.target.value.length > 6;
-      console.log(isPassValid)
-    }
-  }
+const SignUp = () => {
   return (
     <div>
       <div
@@ -21,16 +11,16 @@ const SignIn = () => {
       >
         <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-8 shadow-lg w-full max-w-md">
           <h2 className="text-center text-white text-2xl font-semibold mb-6">
-            Sign In
+            Sign Up
           </h2>
           <form>
             <div className="mb-4">
               <label for="email" className="block text-white mb-1">
-                Email or Username
+                Email 
               </label>
               <input
-                type="email" name="email"
-                id="email" onBlur={handleBlur}
+                type="email"
+                id="email"
                 className="w-full px-3 py-2 rounded bg-white bg-opacity-20 text-white border-none ring-2 ring-slate-50 placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                 placeholder="Enter your email"
               />
@@ -40,36 +30,41 @@ const SignIn = () => {
                 Password
               </label>
               <input
-                type="password" name="password"
-                id="password" onBlur={handleBlur}
+                type="password"
+                id="password"
                 className="w-full px-3 py-2 rounded bg-white bg-opacity-20 text-white border-none ring-2 ring-slate-50 placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                 placeholder="Enter your password"
               />
             </div>
-            <div className="flex items-center justify-between mb-4">
+            <div className="mb-4">
+              <label for="password" className="block text-white mb-1">
+                Confirm Password
+              </label>
+              <input
+                type="password"
+                id="confirm-password"
+                className="w-full px-3 py-2 rounded bg-white bg-opacity-20 text-white border-none ring-2 ring-slate-50 placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                placeholder="Confirm password"
+              />
+            </div>
+            <div className="mb-4">
               <label className="flex items-center text-white">
                 <input
                   type="checkbox"
                   className="form-checkbox h-4 w-4 text-purple-600"
                 />
-                <span className="ml-2">Remember me</span>
+                <span className="ml-2">Accept Terms & Condition</span>
               </label>
-              <a
-                href="#"
-                className="text-sm text-purple-300 hover:text-purple-100"
-              >
-                Forgot Password?
-              </a>
             </div>
             <button
               type="submit"
               className="w-full py-2 bg-white text-purple-800 rounded "
             >
-              Sign In
+              Sign Up
             </button>
             <p className="text-center text-white mt-4">
-              Don't have an account?{" "}
-              <Link to="/signup" className="text-purple-300 hover:text-purple-100">SignUp</Link>
+              Already have an account?{" "}
+              <Link to="/signin" className="text-purple-300 hover:text-purple-100">Sign In</Link>
             </p>
           </form>
         </div>
@@ -78,4 +73,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;
