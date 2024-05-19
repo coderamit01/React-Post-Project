@@ -3,24 +3,44 @@ import LoginbgImg from "../../assets/login-bg.png";
 import { Link } from "react-router-dom";
 
 const SignIn = () => {
-  const [user, setUser] = useState({
-    email: "",
-    password: "",
-  });
-  const handleBlur = (e) => {
-    let isFormValid;
-    if (e.target.name === "email") {
-      isFormValid = /\S+@\S+\.\S+/.test(e.target.value);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const validate = () => {
+    const errors = {};
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!email) {
+      errors.email = "Email is required";
+    } else if (!emailPattern.test(email)) {
+      errors.email = "Invalid email address";
     }
-    if (e.target.name === "password") {
-      isFormValid = e.target.value.length > 6;
+
+    if (!password) {
+      errors.password = "Password is required";
+    } else if (!passwordPattern.test(password)) {
+      errors.password = "Password must be at least 8 characters, and include an uppercase letter, a lowercase letter, a number, and a special character";
     }
-    if (isFormValid) {
-      const newUserInfo = { ...user };
-      newUserInfo[e.target.name] = e.target.value;
-      setUser(newUserInfo);
+
+    return errors;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = validate();
+    setErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length === 0) {
+      setSuccessMessage("Successfully signed in!");
+      // Perform sign-in logic here
+    } else {
+      setSuccessMessage("");
     }
   };
+
   return (
     <div>
       <div
@@ -31,32 +51,36 @@ const SignIn = () => {
           <h2 className="text-center text-white text-2xl font-semibold mb-6">
             Sign In
           </h2>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label for="email" className="block text-white mb-1">
+              <label htmlFor="email" className="block text-white mb-1">
                 Email or Username
               </label>
               <input
                 type="email"
                 name="email"
                 id="email"
-                onBlur={handleBlur}
                 className="w-full px-3 py-2 rounded bg-white bg-opacity-20 text-white border-none ring-2 ring-slate-50 placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                 placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
+              {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
             </div>
             <div className="mb-4">
-              <label for="password" className="block text-white mb-1">
+              <label htmlFor="password" className="block text-white mb-1">
                 Password
               </label>
               <input
                 type="password"
                 name="password"
                 id="password"
-                onBlur={handleBlur}
                 className="w-full px-3 py-2 rounded bg-white bg-opacity-20 text-white border-none ring-2 ring-slate-50 placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                 placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
+              {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
             </div>
             <div className="flex items-center justify-between mb-4">
               <label className="flex items-center text-white">
@@ -79,6 +103,7 @@ const SignIn = () => {
             >
               Sign In
             </button>
+            {successMessage && <p className="text-green-500 text-center mt-4">{successMessage}</p>}
             <p className="text-center text-white mt-4">
               Don't have an account?{" "}
               <Link
