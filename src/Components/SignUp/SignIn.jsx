@@ -1,18 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import LoginbgImg from "../../assets/login-bg.png";
 import { Link } from "react-router-dom";
 
 const SignIn = () => {
+  const [user, setUser] = useState({
+    email: "",
+    password: "",
+  });
   const handleBlur = (e) => {
-    if(e.target.name === 'email'){
-      const isEmailValid = /\S+@\S+\.\S+/.test(e.target.value)
-      console.log(isEmailValid)
+    let isFormValid;
+    if (e.target.name === "email") {
+      isFormValid = /\S+@\S+\.\S+/.test(e.target.value);
     }
-    if(e.target.name === 'password'){
-      const isPassValid = e.target.value.length > 6;
-      console.log(isPassValid)
+    if (e.target.name === "password") {
+      isFormValid = e.target.value.length > 6;
     }
-  }
+    if (isFormValid) {
+      const newUserInfo = { ...user };
+      newUserInfo[e.target.name] = e.target.value;
+      setUser(newUserInfo);
+    }
+  };
   return (
     <div>
       <div
@@ -29,8 +37,10 @@ const SignIn = () => {
                 Email or Username
               </label>
               <input
-                type="email" name="email"
-                id="email" onBlur={handleBlur}
+                type="email"
+                name="email"
+                id="email"
+                onBlur={handleBlur}
                 className="w-full px-3 py-2 rounded bg-white bg-opacity-20 text-white border-none ring-2 ring-slate-50 placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                 placeholder="Enter your email"
               />
@@ -40,8 +50,10 @@ const SignIn = () => {
                 Password
               </label>
               <input
-                type="password" name="password"
-                id="password" onBlur={handleBlur}
+                type="password"
+                name="password"
+                id="password"
+                onBlur={handleBlur}
                 className="w-full px-3 py-2 rounded bg-white bg-opacity-20 text-white border-none ring-2 ring-slate-50 placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                 placeholder="Enter your password"
               />
@@ -69,7 +81,12 @@ const SignIn = () => {
             </button>
             <p className="text-center text-white mt-4">
               Don't have an account?{" "}
-              <Link to="/signup" className="text-purple-300 hover:text-purple-100">SignUp</Link>
+              <Link
+                to="/signup"
+                className="text-purple-300 hover:text-purple-100"
+              >
+                SignUp
+              </Link>
             </p>
           </form>
         </div>
