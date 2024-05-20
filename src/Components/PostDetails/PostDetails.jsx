@@ -5,6 +5,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import { red } from "@mui/material/colors";
+import Skeleton from '@mui/material/Skeleton'; // Import Skeleton component
 
 const PostDetails = () => {
   const { postId } = useParams();
@@ -48,6 +49,7 @@ const PostDetails = () => {
     const color = likeColor ? "" : red[500]; // Toggle color between undefined and "primary"
     setLikeColor(color);
   };
+
   return (
     <div className="container mx-auto pt-20">
       {post ? (
@@ -70,10 +72,10 @@ const PostDetails = () => {
               )}
               Like
             </span>
-            <ShareIcon></ShareIcon>
+            <ShareIcon />
           </div>
 
-          {/* /* Display comments here */}
+          {/* Display comments here */}
           <h4 className="text-xl font-semibold text-green-900 py-2">
             Comments:
           </h4>
@@ -93,7 +95,11 @@ const PostDetails = () => {
           </div>
         </div>
       ) : (
-        <p>Loading...</p>
+        <div>
+          <Skeleton variant="text" width={210} height={40} />
+          <Skeleton variant="text" width={410} height={30} />
+          <Skeleton variant="rectangular" width={500} height={118} />
+        </div>
       )}
     </div>
   );
