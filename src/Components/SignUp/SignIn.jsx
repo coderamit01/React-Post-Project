@@ -3,14 +3,8 @@ import LoginbgImg from "../../assets/login-bg.png";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
 import { FaGoogle, FaFacebook, FaTwitter } from "react-icons/fa";
-import firebaseConfig from "../../firebaseConfig";
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -18,57 +12,10 @@ const SignIn = () => {
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
 
-  const validate = () => {
-    const errors = {};
-    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-
-    if (!email) {
-      errors.email = "Email is required";
-    } else if (!emailPattern.test(email)) {
-      errors.email = "Invalid email address";
-    }
-
-    if (!password) {
-      errors.password = "Password is required";
-    } else if (!passwordPattern.test(password)) {
-      errors.password = "Password must be at least 8 characters long, and include an uppercase letter, a lowercase letter, a number, and a special character";
-    }
-
-    return errors;
-  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const validationErrors = validate();
-    setErrors(validationErrors);
-
-    if (Object.keys(validationErrors).length === 0) {
-      setSuccessMessage("Successfully signed in!");
-      toast.success("Successfully signed in!", {
-        autoClose: 2000
-      });
-      // Perform sign-in logic here
-    } else {
-      setSuccessMessage("");
-    }
-  };
-
-  const handleSocialSignIn = (provider) => {
-    firebase.auth().signInWithPopup(provider)
-      .then((result) => {
-        // Successful sign-in
-        setSuccessMessage("Successfully signed in!");
-        toast.success("Successfully signed in!", {
-          autoClose: 2000
-        });
-      })
-      .catch((error) => {
-        // Handle errors
-        toast.error(`Error: ${error.message}`, {
-          autoClose: 2000
-        });
-      });
+    
   };
 
   return (
