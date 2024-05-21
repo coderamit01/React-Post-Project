@@ -3,6 +3,14 @@ import LoginbgImg from "../../assets/login-bg.png";
 import { Link } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import { FaGoogle, FaFacebook, FaTwitter } from "react-icons/fa";
+import firebaseConfig from "../../firebaseConfig";
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -46,6 +54,23 @@ const SignIn = () => {
     }
   };
 
+  const handleSocialSignIn = (provider) => {
+    firebase.auth().signInWithPopup(provider)
+      .then((result) => {
+        // Successful sign-in
+        setSuccessMessage("Successfully signed in!");
+        toast.success("Successfully signed in!", {
+          autoClose: 2000
+        });
+      })
+      .catch((error) => {
+        // Handle errors
+        toast.error(`Error: ${error.message}`, {
+          autoClose: 2000
+        });
+      });
+  };
+
   return (
     <div>
       <ToastContainer />
@@ -78,7 +103,9 @@ const SignIn = () => {
                 Password
               </label>
               <input
-                type="password" name="password" id="password"
+                type="password"
+                name="password"
+                id="password"
                 className="w-full px-3 py-2 rounded bg-white bg-opacity-20 text-white border-none ring-2 ring-slate-50 placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                 placeholder="Enter your password"
                 value={password}
@@ -102,17 +129,30 @@ const SignIn = () => {
               </a>
             </div>
             <button
-              type="submit"
-              className="w-full py-2 bg-white text-purple-800 rounded"
-            >
+              type="submit" className="w-full py-2 bg-white text-purple-800 rounded">
               Sign In
             </button>
-            <p className="text-center text-white mt-4">Don't have an account?{" "}
-              <Link
-                to="/signup"
-                className="text-purple-300 hover:text-purple-100"
-              >
-                SignUp
+          <div className="mt-4 flex items-center justify-center space-x-2">
+            <button
+              onClick={() => handleSocialSignIn(new firebase.auth.GoogleAuthProvider())}
+              className="px-3 py-3 rounded-full bg-red-500 text-white flex items-center justify-center">
+              <FaGoogle />
+            </button>
+            <button
+              onClick={() => handleSocialSignIn(new firebase.auth.FacebookAuthProvider())}
+              className="px-3 py-3 rounded-full bg-blue-600 text-white flex items-center justify-center">
+              <FaFacebook />
+            </button>
+            <button
+              onClick={() => handleSocialSignIn(new firebase.auth.TwitterAuthProvider())}
+              className="px-3 py-3 rounded-full bg-blue-400 text-white flex items-center justify-center">
+              <FaTwitter  /> 
+            </button>
+          </div>
+            <p className="text-center text-white mt-4">
+              Don't have an account?{" "}
+              <Link to="/signup" className="text-purple-300 hover:text-purple-100">
+                Sign Up
               </Link>
             </p>
           </form>

@@ -8,16 +8,16 @@ import Admin from "./Pages/Admin";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/post/:postId" element={<PostDetails />} />
-        <Route path="/admin" element={<Admin />} />
-        <Route path="/signin" element={<SignIn />} />
-        <Route path="/signup" element={<SignUp />} />
-      </Routes>
-    </Router>
+      <Router>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/post/:postId" element={<PostDetails />} />
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
+      </Router>
   );
 }
 

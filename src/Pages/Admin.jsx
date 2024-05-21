@@ -1,6 +1,8 @@
 import React from 'react';
 
-const Admin = () => {
+
+const Admin = (user) => {
+    console.log('User data in Admin:', user);
     return (
         <div className='overflow-hidden'>
             <div className="flex">
@@ -46,34 +48,11 @@ const Admin = () => {
                         </div>
                     </header>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-6">
                         <div className="bg-white p-6 rounded-lg shadow-md">
-                            <h2 className="text-xl font-bold">92.6k</h2>
-                            <p className="text-gray-600">Subscribers Gained</p>
-                            <div className="mt-4">
-                                <canvas id="subscribersChart"></canvas>
-                            </div>
-                        </div>
-                        <div className="bg-white p-6 rounded-lg shadow-md">
-                            <h2 className="text-xl font-bold">97.5k</h2>
-                            <p className="text-gray-600">Orders Received</p>
-                            <div className="mt-4">
-                                <canvas id="ordersChart"></canvas>
-                            </div>
-                        </div>
-                        <div className="bg-white p-6 rounded-lg shadow-md">
-                            <h2 className="text-xl font-bold">2.7k</h2>
-                            <p className="text-gray-600">Avg Sessions</p>
-                            <div className="mt-4">
-                                <canvas id="sessionsChart"></canvas>
-                            </div>
-                        </div>
-                        <div className="bg-white p-6 rounded-lg shadow-md">
-                            <h2 className="text-xl font-bold">163</h2>
-                            <p className="text-gray-600">Tickets</p>
-                            <div className="mt-4">
-                                <canvas id="ticketsChart"></canvas>
-                            </div>
+                            <h2 className="text-xl font-bold">Welcome, {user.name}</h2>
+                            <p className="text-xl font-bold">Email: {user.email}</p>
+                            <img src={user.photo} alt="User" />
                         </div>
                     </div>
                 </div>
