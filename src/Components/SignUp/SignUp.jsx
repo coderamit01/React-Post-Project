@@ -46,9 +46,8 @@ const SignUp = () => {
     if (Object.keys(validateErrors).length === 0) {
       try {
         await createUserWithEmailAndPassword(auth, email, password);
-        setSuccessMessage("Successfully signed up!");
-        toast.success("Successfully signed up!");
-        navigate("/signin"); // Redirect to sign-in page or home page
+        toast.success("Registered successfully");
+        navigate("/signin",{state : {message: "Registered successfully"}}); // Redirect to sign-in page or home page
       } catch (error) {
         setErrors({ firebase: error.message });
         toast.error(error.message);
@@ -67,14 +66,7 @@ const SignUp = () => {
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label htmlFor="email" className="block text-white mb-1">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-3 py-2 rounded bg-white bg-opacity-20 text-white border-none ring-2 ring-slate-50 placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                placeholder="Enter your email"
+              <input type="email" id="email"  name="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full px-3 py-2 rounded bg-white bg-opacity-20 text-white border-none ring-2 ring-slate-50 placeholder-white focus:outline-none focus:ring-2 focus:ring-purple-500" placeholder="Enter your email"
                 required
               />
               {errors.email && <p className='text-red-500 text-sm mt-1'>{errors.email}</p>}

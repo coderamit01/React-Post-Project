@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LoginbgImg from "../../assets/login-bg.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { FaGoogle, FaFacebook, FaTwitter } from "react-icons/fa";
@@ -11,6 +11,13 @@ const SignIn = () => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [successMessage, setSuccessMessage] = useState("");
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state && location.state.message) {
+      toast.success(location.state.message);
+    }
+  },[location.state])
 
 
   const handleSubmit = (e) => {
